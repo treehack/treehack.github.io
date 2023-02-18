@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "convex": "^0.9.1",
+    "firebase": "^9.17.1"
+  }
+}
