@@ -1,3 +1,41 @@
+// var singerElement = document.querySelector('.audio-singer');
+
+// var singerNames = ['Taylor Swift', 'Ariana Grande', 'Beyoncé', 'Ed Sheeran', 'Justin Bieber', 'Katy Perry', 'Rihanna', 'Shawn Mendes'];
+
+// function updateSingerName() {
+//     console.log("inside updatename"+singerElement);
+
+//   var randomIndex = Math.floor(Math.random() * singerNames.length);
+//   var randomSingerName = singerNames[randomIndex];
+//   singerElement.textContent = randomSingerName;
+//   console.log(" updatename"+singerElement);
+// }
+// updateSingerName();
+// singerElement.addEventListener('click', updateSingerName);
+// console.log("inside updatename"+singerElement);
+
+
+// // var accessKey = 'dATex-q_2lQsRmU5cqpcHLnXA5ATqA-BwXgh2KQgGL8';
+
+// // var apiUrl = 'https://api.unsplash.com/photos/random?client_id=' + accessKey;
+
+// // var image = document.getElementById('myImage');
+
+// // function updateImage() {
+// //   fetch(apiUrl)
+// //     .then(response => response.json())
+// //     .then(data => {
+// //       var imageUrl = data.urls.regular;
+// //       image.setAttribute('src', imageUrl);
+// //     })
+// //     .catch(error => console.error(error));
+// // }
+
+// // updateImage();
+
+// // setInterval(updateImage, 3000);
+
+
 const playBtn = document.querySelector(".play"),
     skipForward = document.querySelector(".skip-forward"),
     skipBack = document.querySelector(".skip-back"),
@@ -240,7 +278,6 @@ uploadButton.addEventListener('click', () => {
   }
   const formData = new FormData(); // Create a new FormData object
   formData.append('data', fileInput.files[0]); // Add the selected audio file to the FormData object
-  alert("Successfuull");
   
 
   fetch('https://api.estuary.tech/content/add', {
@@ -252,7 +289,7 @@ uploadButton.addEventListener('click', () => {
  })
  .then(response => {
 console.log(response);
-alert("successfull");
+alert("File Uploaded Succesfully");
 // Handle the response data here
 })
 .catch(error => {
