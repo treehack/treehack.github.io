@@ -6,7 +6,7 @@ url = "https://api.estuary.tech/content/list"
 payload={}
 headers = {
   'Accept': 'application/json',
-  'Authorization': 'Bearer EST1db87ffa-36c7-48b2-bae0-38592a045c01ARY'
+  'Authorization': 'Bearer EST6a7f86f7-4646-4503-bdfb-210173b30071ARY'
 }
 
 response = requests.request("GET", url, headers=headers, data=payload)
