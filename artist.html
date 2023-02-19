@@ -20,6 +20,118 @@
 <button id="upload-button">Upload</button> -->
 <div >
     <link rel="stylesheet" href="artist.css">
+
+	<div class="center2">
+		<div  class="title2"	>
+			<h1 style="color: white;"><strong>Compare Music Album</strong></h1>
+		</div>
+
+		<!-- <div class="dropzone">
+
+			<input type="file" class="upload-input"  id="file-input" name="audio" accept="audio/*">
+		</div> -->
+
+		<!-- <div class="title">
+			<h1>Drop file to upload</h1>
+			<button id="upload-button" class="btn2" name="uploadbutton" >Upload</button> 
+
+		</div> -->
+		<!-- <div class="title">
+			<input type="file" id="file1">
+		</div>
+		<div class="title">
+		</div> -->
+		<input type="file" id="file1">
+		<input type="file" id="file2">
+
+		<script>
+			function compare() {
+				var file1 = document.getElementById("file1").files[0];
+				var file2 = document.getElementById("file2").files[0];
+	
+				if (file1 && file2) {
+					var reader1 = new FileReader();
+					var reader2 = new FileReader();
+	
+					reader1.onload = function(e) {
+						reader2.onload = function(e) {
+							var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+	
+							audioCtx.decodeAudioData(reader1.result, function(buffer1) {
+								audioCtx.decodeAudioData(reader2.result, function(buffer2) {
+									calculateCorrelation(buffer1, buffer2);
+								});
+							});
+						}
+						reader2.readAsArrayBuffer(file2);
+					}
+					reader1.readAsArrayBuffer(file1);
+				}
+			}
+	
+			function calculateCorrelation(buffer1, buffer2) {
+				var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+				var analyser = audioCtx.createAnalyser();
+	
+				var source1 = audioCtx.createBufferSource();
+				var source2 = audioCtx.createBufferSource();
+	
+				source1.buffer = buffer1;
+				source1.connect(analyser);
+				source1.start(0);
+	
+				source2.buffer = buffer2;
+				source2.connect(analyser);
+				source2.start(0);
+	
+				var numBins = analyser.frequencyBinCount;
+				var fftData1 = new Uint8Array(numBins);
+				var fftData2 = new Uint8Array(numBins);
+	
+				var correlation = new Float32Array(numBins);
+				var maxCorr = -1;
+				var offset = 0;
+	
+				var intervalId = setInterval(function() {
+					analyser.getByteFrequencyData(fftData1);
+					analyser.getByteFrequencyData(fftData2);
+	
+					var corr = 0;
+					for (var j = 0; j < numBins; j++) {
+						corr += fftData1[j] * fftData2[j];
+					}
+					correlation[offset] = corr;
+					if (corr > maxCorr) {
+						maxCorr = corr;
+					}
+	
+					offset++;
+					if (offset >= numBins) {
+						clearInterval(intervalId);
+						var similarity = maxCorr / (255 * numBins);
+						console.log("correlation"+correlation);
+						console.log("similarity"+similarity);
+						var resultDiv = document.getElementById("result");
+						resultDiv.innerHTML = "Similarity: " + similarity.toFixed(2);
+					}
+				}, 10);
+			}
+		</script>
+		<div class="title">
+			<h1>Compare Files</h1>
+		<button class="btn3" onclick="compare()">Compare</button>
+		</div>
+		<div class="result">
+			<!-- <h1 style="color: white;"></h1> -->
+		<!-- <div style="color: white;" id="result"></div> -->
+		<div style="border: 0.3px solid rgb(255, 255, 255); padding: 10px;" id="result"></div>
+
+		</div>
+
+	</div>
+
+
+
 	<div class="center">
 		<div>
 			<h1 style="color: white;"><strong>Upload music as Artist</strong></h1>
@@ -31,6 +143,7 @@
 		<div class="dropzone">
 			<img src="http://100dayscss.com/codepen/upload.svg" class="upload-icon" />
 			<!-- <input type="file" class="upload-input" /> -->
+
 			<input type="file" class="upload-input"  id="file-input" name="audio" accept="audio/*">
 			<!-- <button id="upload-button" class="btn" name="uploadbutton">Upload</button>  -->
 		</div>
