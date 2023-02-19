@@ -2,6 +2,9 @@
     <link rel="stylesheet" href="artist.css">
 	<div class="center">
 		<div class="title">
+            <p1 id ='name'>Username</p1>
+            <br>
+            <p1 id='email'>Email</p1>
 			<h1>Drop file to upload</h1>
 		</div>
 
@@ -14,6 +17,46 @@
 
 	</div>
 </div>
-<!-- original pen: https://codepen.io/roydigerhund/pen/ZQdbeN  -->
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"></script>
+<script type="module">
+   
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+    import { getDatabase, set,ref,get } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-analytics.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
+    var firebaseConfig = {
+    apiKey: "AIzaSyB3ByfKpp3018i60eO1Zvjtcy5ibS6N_q0",
+    authDomain: "treehack-pro.firebaseapp.com",
+    projectId: "treehack-pro",
+    storageBucket: "treehack-pro.appspot.com",
+    messagingSenderId: "224737491755",
+    appId: "1:224737491755:web:faed54c98d6b4743b1e36e",
+    measurementId: "G-JWXCJFMN4X"
+    };
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth();
+    auth.onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+    var displayName = user.isArtist;
+    var email = user.email;
+    var uid = user.uid;
+    const userRef = ref(database, 'users/' + uid);
+    get(userRef).then((snapshot) => {
+    const userData = snapshot.val();
 
-<!-- NO JS ADDED YET -->
+    document.getElementById("name").textContent = userData.username;
+    document.getElementById("email").textContent = userData.email;
+      
+    });
+
+}});
+
+
+
+
+  
+    </script>
