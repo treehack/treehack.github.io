@@ -23,6 +23,8 @@ signupForm.addEventListener('submit', (e) => {
         .then(() => {
           console.log('User data saved successfully!');
             alert("done");
+            window.location.href = "/artist.html";
+
         })
         .catch((error) => {
           console.error('Error saving user data:', error);
