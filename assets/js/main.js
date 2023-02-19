@@ -19,7 +19,7 @@ const playBtn = document.querySelector(".play"),
       method: 'GET',
       headers: {
         'Accept': 'application/json',
-        'Authorization': 'Bearer EST81240aaf-4fb4-4d09-9a70-fa038d0c224dARY'
+        'Authorization': 'Bearer EST6a7f86f7-4646-4503-bdfb-210173b30071ARY'
       }
     })
     .then(response => response.json())
@@ -246,7 +246,7 @@ uploadButton.addEventListener('click', () => {
   fetch('https://api.estuary.tech/content/add', {
   method: 'POST',
   headers: {
-    'Authorization': 'Bearer EST81240aaf-4fb4-4d09-9a70-fa038d0c224dARY'
+    'Authorization': 'Bearer EST6a7f86f7-4646-4503-bdfb-210173b30071ARY'
   },
  body: formData
  })
