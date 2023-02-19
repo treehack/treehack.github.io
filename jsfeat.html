@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Audio Comparison</title>
+</head>
+<body>
+    <input type="file" id="file1">
+    <input type="file" id="file2">
+    <button onclick="compare()">Compare</button>
+    <div id="result"></div>
+
+    <script>
+        function compare() {
+            var file1 = document.getElementById("file1").files[0];
+            var file2 = document.getElementById("file2").files[0];
+
+            if (file1 && file2) {
+                var reader1 = new FileReader();
+                var reader2 = new FileReader();
+
+                reader1.onload = function(e) {
+                    reader2.onload = function(e) {
+                        var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                        var analyser = audioCtx.createAnalyser();
+
+                        var source1 = audioCtx.createBufferSource();
+                        var source2 = audioCtx.createBufferSource();
+
+                        audioCtx.decodeAudioData(reader1.result, function(buffer1) {
+                            source1.buffer = buffer1;
+                            source1.connect(analyser);
+                            source1.start(0);
+                        });
+
+                        audioCtx.decodeAudioData(reader2.result, function(buffer2) {
+                            source2.buffer = buffer2;
+                            source2.connect(analyser);
+                            source2.start(0);
+
+                            var numBins = analyser.frequencyBinCount;
+                            var fftData1 = new Uint8Array(numBins);
+                            var fftData2 = new Uint8Array(numBins);
+
+                            analyser.getByteFrequencyData(fftData1);
+                            analyser.getByteFrequencyData(fftData2);
+
+                            var correlation = new Float32Array(numBins);
+                            var maxCorr = -1;
+                            var offset = 0;
+
+                            for (var i = 0; i < numBins; i++) {
+                                var corr = 0;
+                                for (var j = 0; j < numBins - i; j++) {
+                                    corr += fftData1[j] * fftData2[j + i];
+                                }
+                                correlation[i] = corr;
+                                if (corr > maxCorr) {
+                                    maxCorr = corr;
+                                    offset = i;
+                                }
+                            }
+
+                            var similarity = maxCorr / numBins;
+                            console.log("correlation"+correlation);
+                            console.log("similarity"+similarity);
+                            var resultDiv = document.getElementById("result");
+                            resultDiv.innerHTML = "Similarity: " + similarity.toFixed(2);
+                        });
+                    }
+                    reader2.readAsArrayBuffer(file2);
+                }
+                reader1.readAsArrayBuffer(file1);
+            }
+        }
+    </script>
+</body>
+</html>
