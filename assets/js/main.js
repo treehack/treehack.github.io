@@ -19,7 +19,7 @@ const playBtn = document.querySelector(".play"),
       method: 'GET',
       headers: {
         'Accept': 'application/json',
-        'Authorization': 'Bearer EST1db87ffa-36c7-48b2-bae0-38592a045c01ARY'
+        'Authorization': 'Bearer EST6a7f86f7-4646-4503-bdfb-210173b30071ARY'
       }
     })
     .then(response => response.json())
@@ -227,3 +227,43 @@ gsap.from("body, h1, .audio-img, .audio-title, .audio-singer, .audio-btns", {
     ease: "expo.out",
     stagger: 0.2,
 });
+
+
+const fileInput = document.querySelector('#file-input');
+const uploadButton = document.querySelector('#upload-button');
+
+uploadButton.addEventListener('click', () => {
+  const file = fileInput.files[0];
+  if (!file) {
+    console.error('No file selected');
+    return;
+  }
+  const formData = new FormData(); // Create a new FormData object
+  formData.append('data', fileInput.files[0]); // Add the selected audio file to the FormData object
+  alert("Successfuull");
+  
+
+  fetch('https://api.estuary.tech/content/add', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer EST6a7f86f7-4646-4503-bdfb-210173b30071ARY'
+  },
+ body: formData
+ })
+ .then(response => {
+console.log(response);
+alert("successfull");
+// Handle the response data here
+})
+.catch(error => {
+console.error(error);
+// Handle errors here
+});
+});
+
+
+
+
+
+
+

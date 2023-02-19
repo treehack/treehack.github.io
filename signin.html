@@ -40,7 +40,7 @@
               </label>
              <lable>
                 <div class = 'lable'>Signing as artist?</div>
-                <input type = 'checkbox'/>
+                <input type = 'checkbox' id='artist_checkin'/>
              </label>
               <div class='sbmt'>
                 <button class='sbmt--btn' id="signup">Signup</button>
@@ -60,7 +60,7 @@
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
-        import { getDatabase } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
+        import { getDatabase, set,ref } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-analytics.js";
         import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
 
@@ -90,10 +90,24 @@
             var email = document.getElementById('email_signup').value;
             var password = document.getElementById('password_signup').value;
             var username = document.getElementById('username_signup').value;
+            var isArtist = document.getElementById('artist_checkin').value;
             createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
     // Signed in 
              const user = userCredential.user;
+             if (isArtist){
+             set(ref(database,'users/'+user.uid),{
+                username:username,
+                email:email,
+                isArtist:true
+             })
+            }else{
+                set(ref(database,'users/'+user.uid),{
+                username:username,
+                email:email,
+                isArtist:false
+             })
+            }
              alert('User created');
     // ...
              })
