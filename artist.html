@@ -167,7 +167,7 @@
             </div>
 
             <h2 class="audio-title">Title of audio</h2>
-            <h6 class="audio-singer" >Singer name</h6>
+            <h6 class="audio-singer" id="singerName" >Singer name</h6>
         </div>
 
         <div class="audio-progress">
@@ -207,7 +207,36 @@
 
 </div>
 <script src="./assets/js/main.js"></script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+    import { getDatabase, set,ref,get } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-analytics.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
+    var firebaseConfig = {
+    apiKey: "AIzaSyB3ByfKpp3018i60eO1Zvjtcy5ibS6N_q0",
+    authDomain: "treehack-pro.firebaseapp.com",
+    projectId: "treehack-pro",
+    storageBucket: "treehack-pro.appspot.com",
+    messagingSenderId: "224737491755",
+    appId: "1:224737491755:web:faed54c98d6b4743b1e36e",
+    measurementId: "G-JWXCJFMN4X"
+    };
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth();
+    auth.onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+    var displayName = user.username;
+    var uid = user.uid;
+    const userRef = ref(database, 'users/' + uid);
+    get(userRef).then((snapshot) => {
+    const userData = snapshot.val();
+    document.getElementById("singerName").textContent = "Hello " +userData.username;   
+    });
 
+}});
+</script>
 
 <!-- original pen: https://codepen.io/roydigerhund/pen/ZQdbeN  -->
 
