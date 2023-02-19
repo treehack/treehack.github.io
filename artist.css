@@ -64,7 +64,7 @@ h1 {
   height: 100%;
   opacity: 0;
 }
-.btn {		
+/* .btn {		
   display: block;		
   width: 140px;		
   height: 40px;		
@@ -75,7 +75,7 @@ h1 {
   box-shadow: 0 3px 0 0 hotpink;		
   transition: all 0.3s ease-in-out;		
   font-size: 14px;		
-}	
+}	 */
 
 
 .btn2 {
